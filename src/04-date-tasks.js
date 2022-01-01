@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "windows"] */
+/* eslint linebreak-style: ["error", "unix"] */
 /* *******************************************************************************************
  *                                                                                           *
  * Please read the following tutorial before implementing tasks:                              *
@@ -106,12 +106,11 @@ function timeSpanToString(startDate, endDate) {
  */
 function angleBetweenClockHands(date) {
   const h = date.getUTCHours();
+  const h12 = h > 12 ? h - 12 : h;
   const m = date.getUTCMinutes();
-  const hAngle = 0.5 * (h * 60 + m);
-  const mAngle = 6 * m;
-  const angle = Math.abs(hAngle - mAngle);
-  // angle = Math.min(angle, 360 - angle);
-  return (angle * 180) / Math.PI;
+  let angle = Math.abs(0.5 * (60 * h12 + m) - 6 * m);
+  angle = angle > 180 ? 360 - angle : angle;
+  return (angle * Math.PI) / 180;
 }
 
 
