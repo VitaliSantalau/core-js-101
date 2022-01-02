@@ -138,7 +138,7 @@ class CombineSelectors {
 
 class CreateSelector {
   constructor(element, value) {
-    this.elementS = '';
+    this.elementS = ''; // ...S - string
     this.idS = '';
     this.classS = '';
     this.attrS = '';
@@ -246,7 +246,6 @@ const cssSelectorBuilder = {
   combine(selector1, combinator, selector2) {
     return new CombineSelectors(selector1, combinator, selector2);
   },
-
 };
 
 module.exports = {
