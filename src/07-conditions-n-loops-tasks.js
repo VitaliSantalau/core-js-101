@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "unix"] */
+/* eslint linebreak-style: ["error", "windows"] */
 /* *************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -328,8 +328,24 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const stack = [];
+  const openBrackets = ['[', '(', '{', '<'];
+  const pairsBrackets = {
+    ']': '[',
+    ')': '(',
+    '}': '{',
+    '>': '<',
+  };
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (openBrackets.includes(str[i])) {
+      stack.push(str[i]);
+    } else if (stack.length !== 0 && pairsBrackets[str[i]] === stack[stack.length - 1]) {
+      stack.pop();
+    } else return false;
+  }
+  return stack.length === 0;
 }
 
 
@@ -353,8 +369,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -370,8 +386,22 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const splitArrs = pathes.map((path) => path.split(''));
+  const lengths = splitArrs.map((arr) => arr.length);
+  const length = Math.min(...lengths);
+  let str = '';
+  for (let i = 0; i < length; i += 1) {
+    const base = splitArrs[0][i];
+    for (let j = 0; j < splitArrs.length; j += 1) {
+      if (splitArrs[j][i] !== base) {
+        const index = str.lastIndexOf('/');
+        return str.slice(0, index + 1);
+      }
+    }
+    str = `${str}${base}`;
+  }
+  return str;
 }
 
 
@@ -393,8 +423,20 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  const product = [];
+  for (let i = 0; i < m1.length; i += 1) {
+    const subProduct = [];
+    for (let j = 0; j < m2[i].length; j += 1) {
+      let sum = 0;
+      for (let x = 0; x < m1[i].length; x += 1) {
+        sum += m1[i][x] * m2[x][j];
+      }
+      subProduct.push(sum);
+    }
+    product.push(subProduct);
+  }
+  return product;
 }
 
 
@@ -428,8 +470,60 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
+function evaluateTicTacToePosition(position) { // the same https://github.com/VitaliSantalau/tic-tac-toe/blob/master/src/tic-tac-toe.js
+  const checkColumns = () => {
+    let result;
+    for (let i = 0; i < position[0].length; i += 1) {
+      const arr = [];
+      for (let j = 0; j < position.length; j += 1) {
+        arr.push(position[j][i]);
+      }
+      const [x, y, z] = arr;
+      if (x && x === y && x === z) {
+        result = x;
+      }
+    }
+    return result;
+  };
+
+  const checkRows = () => {
+    let result;
+    for (let i = 0; i < position.length; i += 1) {
+      const [x, y, z] = position[i];
+      if (x && x === y && x === z) {
+        result = x;
+      }
+    }
+    return result;
+  };
+
+  const checkDiag = () => {
+    let result;
+    const arr = [];
+    for (let i = 0; i < position.length; i += 1) {
+      arr.push(position[i][i]);
+    }
+    const [x, y, z] = arr;
+    if (x && x === y && x === z) {
+      result = x;
+    }
+    return result;
+  };
+
+  const checkSubDiag = () => {
+    let result;
+    const arr = [];
+    for (let i = 0; i < position.length; i += 1) {
+      arr.push(position[i][position.length - 1 - i]);
+    }
+    const [x, y, z] = arr;
+    if (x && x === y && x === z) {
+      result = x;
+    }
+    return result;
+  };
+
+  return checkColumns() || checkRows() || checkDiag() || checkSubDiag();
 }
 
 

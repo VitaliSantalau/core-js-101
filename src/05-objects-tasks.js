@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "unix"] */
+/* eslint linebreak-style: ["error", "windows"] */
 
 /* ************************************************************************************************
  *                                                                                                *

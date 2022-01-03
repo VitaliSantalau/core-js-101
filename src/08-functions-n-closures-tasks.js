@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "unix"] */
+/* eslint linebreak-style: ["error", "windows"] */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -24,8 +24,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (x) => f(g(x));
 }
 
 
@@ -45,8 +45,8 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return (x) => x ** exponent;
 }
 
 
@@ -63,8 +63,22 @@ function getPowerFunction(/* exponent */) {
  *   getPolynom(8)     => y = 8
  *   getPolynom()      => null
  */
-function getPolynom() {
-  throw new Error('Not implemented');
+function getPolynom(...theArgs) {
+  let a = 0;
+  let b = 0;
+  let c = 0;
+  return (x) => {
+    if ([...theArgs].length === 1) {
+      [c] = [...theArgs];
+    }
+    if ([...theArgs].length === 2) {
+      [b, c] = [...theArgs];
+    }
+    if ([...theArgs].length === 3) {
+      [a, b, c] = [...theArgs];
+    }
+    return a * (x ** 2) + b * x + c;
+  };
 }
 
 
@@ -82,8 +96,14 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const cache = new Map();
+  return (x) => {
+    if (cache.has(x)) return cache.get(x);
+    const value = func(x);
+    cache.set(x, value);
+    return value;
+  };
 }
 
 
@@ -102,8 +122,18 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  let att = attempts;
+  return () => {
+    while (att > 0) {
+      try {
+        return func();
+      } catch (error) {
+        att -= 1;
+      }
+    }
+    return func();
+  };
 }
 
 
@@ -130,8 +160,13 @@ function retry(/* func, attempts */) {
  * cos(3.141592653589793) ends
  *
  */
-function logger(/* func, logFunc */) {
-  throw new Error('Not implemented');
+function logger(func, logFunc) {
+  return (...theArgs) => {
+    logFunc(`${func.name}(${theArgs})`, 'starts');
+    const result = func(...theArgs);
+    logFunc(`${func.name}(${theArgs})`, 'ends');
+    return result;
+  };
 }
 
 
