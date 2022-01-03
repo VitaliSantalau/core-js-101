@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "windows"] */
+/* eslint linebreak-style: ["error", "unix"] */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -161,14 +161,13 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-  return (...theArgs) => {
-    logFunc(`${func.name}(${theArgs})`, 'starts');
-    const result = func(...theArgs);
-    logFunc(`${func.name}(${theArgs})`, 'ends');
+  return (...a) => {
+    logFunc(`${func.name}(${a}) starts`);
+    const result = func.call(this, ...a);
+    logFunc(`${func.name}(${a}) ends`);
     return result;
   };
 }
-
 
 /**
  * Return the function with partial applied arguments
@@ -183,8 +182,8 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return (...args2) => fn(...args1, ...args2);
 }
 
 
@@ -205,8 +204,12 @@ function partialUsingArguments(/* fn, ...args1 */) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(/* startFrom */) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(startFrom) {
+  let id = startFrom - 1;
+  return () => {
+    id += 1;
+    return id;
+  };
 }
 
 
