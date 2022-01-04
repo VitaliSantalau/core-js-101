@@ -1,4 +1,4 @@
-/* eslint linebreak-style: ["error", "unix"] */
+/* eslint linebreak-style: ["error", "windows"] */
 /* *********************************************************************************************
  *                                                                                             *
  * Please read the following tutorial before implementing tasks:                                *
@@ -162,9 +162,10 @@ function retry(func, attempts) {
  */
 function logger(func, logFunc) {
   return (...a) => {
-    logFunc(`${func.name}(${a}) starts`);
+    const fArgs = () => [...a].map((arg) => JSON.stringify(arg));
+    logFunc(`${func.name}(${fArgs()}) starts`);
     const result = func.call(this, ...a);
-    logFunc(`${func.name}(${a}) ends`);
+    logFunc(`${func.name}(${fArgs()}) ends`);
     return result;
   };
 }
